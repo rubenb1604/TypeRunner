@@ -1,9 +1,9 @@
 import React from "react";
 import ScrollText from "@/app/Components/Text/ScrollText";
-import KeyInputComponent from "@/app/Components/KeyTracking/KeyInputComponent";
+import CanvasImage from "@/app/Components/Game/CanvasGame";
 
 const PlayPage: React.FC = () => {
-    const text:string = " Kevin Chromik Mini Hackathon 2.0 Project by Ruben 2024 v3";
+    const text:string = "Das ist ein Test zu dem Kevin Chromik Mini Hackathon. Ich bin gerade am Code und höre Musik. toll.";
 
     return (
         <div className="overflow-hidden">

@@ -1,42 +1,86 @@
-"use client"
+"use client";
 
-import KeyInputComponent from "@/app/Components/KeyTracking/KeyInputComponent";
+import React, { useEffect, useState, useCallback } from "react";
+import { trackKeyInputs } from "@/app/Components/KeyTracking/KeyInputTracker";
+import CanvasImage from "@/app/Components/Game/CanvasGame";
 
-interface ScrollText {
+interface ScrollTextProps {
     text: string;
 }
 
-const ScrollText:React.FC<ScrollText> = ({text}) => {
+const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
+    const [textAvailable, setTextAvailable] = useState<string>(text);
+    const [textDone, setTextDone] = useState<string>("");
+    const [triggerPlayerUp, setTriggerPlayerUp] = useState(false);
 
-    let text_avalible:string = text;
-    let text_done:string = "";
-
-    const pull_next_char = () => {
-        if (text_avalible.length === 0) {
-        } else {
-            let char = text_avalible.charAt(0);
-            text_avalible = text_avalible.substring(1);
-            text_done = text_done + char;
-            console.log(text_done + "»" + text_avalible);
+    const pullNextChar = useCallback(() => {
+        if (textAvailable.length > 0) {
+            const char = textAvailable.charAt(0);
+            setTextAvailable((prev) => prev.substring(1));
+            setTextDone((prev) => prev + char);
+            setTriggerPlayerUp(true);
+            setTimeout(() => setTriggerPlayerUp(false), 20);
         }
+    }, [textAvailable]);
+
+    function replaceToUnderscore(input: string): string {
+        return input.replace(/ /g, ' ');
     }
 
     return (
         <div>
-            <ul className="flex whitespace-nowrap animate-infinite-scroll">
-                <li className="mx-8">
-                    <div>
-                        <span className="" id="avalible">{text_avalible}</span>
-                        <span className="text-red-500" id="done">{text_done}</span>
+            <ul className="flex whitespace-nowrap text-8xl mt-64 font-sans">
+                <li className="">
+                    <div id="CONSOLEBACKGROUND" className="bg-neutral-800 w-screen h-64 absolute mt-[-4rem]"></div>
+                    <div className="flex w-full bg-neutral-800">
+                        <div className="text-blue-500 text-right w-[500%] absolute mx-[-470%]" id="done">
+                            {replaceToUnderscore(textDone)}
+                        </div>
+                        <div className="absolute first-letter:text-amber-300 ml-[30%] text-white" id="available">
+                            {replaceToUnderscore(textAvailable)}
+                        </div>
                     </div>
                 </li>
             </ul>
-            <KeyInputComponent text={text} onCharsDoneChange={pull_next_char} />
+            <KeyInputPage text={textAvailable} onCharMatch={pullNextChar}/>
+            <div className="fixed">
+                <CanvasImage triggerPlayerUp={triggerPlayerUp}/>
+
+            </div>
         </div>
     );
+
+
+};
+
+interface KeyProps {
+    text: string;
+    onCharMatch: () => void;
 }
 
+const KeyInputPage: React.FC<KeyProps> = ({ text, onCharMatch }) => {
+    useEffect(() => {
+        const cleanup = trackKeyInputs((key, isPressed) => {
+            if (isPressed && text.length > 0) {
+                if (text.charAt(0) === key) {
+                    onCharMatch();
+                }
+            }
+        });
+
+
+
+
+        return () => {
+            cleanup();
+        };
+    }, [text, onCharMatch]);
+
+    return (
+        <div>
+            {/*<p>Characters: {text.length === 0 ? "All done!" : `Remaining: ${text.length}`}</p>*/}
+        </div>
+    );
+};
+
 export default ScrollText;
-
-
-import React from "react";
