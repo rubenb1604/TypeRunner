@@ -14,11 +14,14 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
     const positionX = useRef<number>(0);
     const blocks = useRef<any[]>([]);
     const isFalling = useRef<boolean>(true);
+    const isRunning = useRef<boolean>(true);
 
+    // Funktion zum zufälligen Zahlenbereich
     function getRandomNumber(x: number, y: number): number {
         return Math.floor(Math.random() * (y - x + 1)) + x;
     }
 
+    // Bilder laden (nur einmal)
     useEffect(() => {
         const img = new Image();
         img.src = 'player.png';
@@ -27,8 +30,9 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         const platformImg = new Image();
         platformImg.src = 'platform.png';
         platformImg.onload = () => setPlatformImage(platformImg);
-    }, []);
+    }, []); // Nur einmal beim initialen Rendern
 
+    // Kollisionserkennung
     const checkCollision = () => {
         const tolerance = 3;  // Toleranz in Pixeln
 
@@ -52,7 +56,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
                 positionY.current + image!.height > block.y &&
                 positionY.current < block.y + block.height
             ) {
-                positionY.current = 0;
+                isRunning.current = false;
                 return;
             }
         }
@@ -60,7 +64,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         isFalling.current = true;
     };
 
-
+    // Canvas-Rendering und Animation
     useEffect(() => {
         if (canvasRef.current && image && platformImage) {
             const canvas = canvasRef.current;
@@ -72,50 +76,58 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
                 const speed = 1;
                 let positionX = (canvas.width - image.width) / 2;
 
-                blocks.current.push({ x: 0, y: 270, width: canvas.width*2, height: canvas.height });
+                blocks.current.push({ x: 0, y: 270, width: canvas.width * 2, height: canvas.height });
 
+                // Aktualisierung des Canvas im Animationsloop
                 const updateCanvas = () => {
-                    if (isFalling.current) {
-                        if (positionY.current <= (canvas.height + image.height) / 2 - 1) {
-                            positionY.current += speed;
-                        } else {
-                            positionY.current = (canvas.height + image.height) / 2;
-                            positionY.current = 0;
+                    if (isRunning.current) {
+                        if (isFalling.current) {
+                            if (positionY.current <= (canvas.height + image.height) / 2 - 1) {
+                                positionY.current += speed;
+                            } else {
+                                positionY.current = (canvas.height + image.height) / 2;
+                                isRunning.current = false;
+                            }
                         }
+
+                        checkCollision(); // Kollision mit den Blöcken überprüfen
+
+                        // Nur den Hintergrund neu zeichnen, wenn nötig
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = '#D1D5DB';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(image, 0, positionY.current);
+
+                        // Blockverschiebung und -zeichnung
+                        blocks.current.forEach((block, index) => {
+                            if (block.x + block.width < 0) {
+                                blocks.current.splice(index, 1); // Entfernt den Block, wenn er aus dem Canvas verschwindet
+                            }
+                            block.x -= 3;  // Blockgeschwindigkeit
+                            ctx.drawImage(platformImage, block.x, block.y, block.width, block.height);
+                        });
+
+                        requestAnimationFrame(updateCanvas); // Nächsten Frame anfordern
                     }
-
-                    checkCollision(); // Kollision mit den Blöcken überprüfen
-
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = '#D1D5DB';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(image, 0, positionY.current);
-
-                    blocks.current.forEach((block, index) => {
-                        if (block.x + block.width < 0) {
-                            blocks.current.splice(index, 1); // Entfernt den Block, wenn er aus dem Canvas verschwindet
-                        }
-                        block.x -= 3;
-                        ctx.drawImage(platformImage, block.x, block.y, block.width, block.height);
-                    });
-
-                    requestAnimationFrame(updateCanvas);
                 };
 
                 requestAnimationFrame(updateCanvas);
 
+                // Blöcke spawnen
                 const spawnBlock = () => {
+                    if (blocks.current.length > 20) return; // Maximale Anzahl an Blöcken
                     let nbr: number = getRandomNumber(500, 1500);
                     const blockWidth = nbr;
                     const blockY = 270;
                     blocks.current.push({ x: canvas.width, y: blockY, width: blockWidth, height: canvas.height });
                 };
 
-                setInterval(spawnBlock, 3000);
+                setInterval(spawnBlock, 3000); // Alle 3 Sekunden einen neuen Block spawnen
             }
         }
-    }, [image, platformImage]);
+    }, [image, platformImage]); // Nur erneut ausführen, wenn die Bilder geladen sind
 
+    // Spieler nach oben bewegen
     const playerUp = () => {
         let upperspeed: number = 50;
         if (positionY.current - upperspeed + 1 >= 0) {
@@ -125,6 +137,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         }
     };
 
+    // Spieler auf Knopfdruck nach oben bewegen
     useEffect(() => {
         if (triggerPlayerUp) {
             playerUp();
