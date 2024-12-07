@@ -16,12 +16,25 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
     const isFalling = useRef<boolean>(true);
     const isRunning = useRef<boolean>(true);
 
-    // Funktion zum zufälligen Zahlenbereich
+
+    //infra
     function getRandomNumber(x: number, y: number): number {
         return Math.floor(Math.random() * (y - x + 1)) + x;
     }
 
-    // Bilder laden (nur einmal)
+    function delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function executeWithDelay(callback: () => void, times: number, delayMs: number) {
+        for (let i = 0; i < times; i++) {
+            callback();
+            await delay(delayMs);
+        }
+    }
+
+
+    //game
     useEffect(() => {
         const img = new Image();
         img.src = 'player.png';
@@ -30,28 +43,25 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         const platformImg = new Image();
         platformImg.src = 'platform.png';
         platformImg.onload = () => setPlatformImage(platformImg);
-    }, []); // Nur einmal beim initialen Rendern
+    }, []);
 
-    // Kollisionserkennung
     const checkCollision = () => {
-        const tolerance = 3;  // Toleranz in Pixeln
+        const tolerance = 0;
 
         for (let block of blocks.current) {
-            // Kollision mit dem Blockboden (berühren)
             if (
                 positionY.current + image!.height <= block.y + tolerance &&
                 positionY.current + image!.height + tolerance >= block.y &&
                 block.x < positionX.current + image!.width &&
                 block.x + block.width > positionX.current
             ) {
-                positionY.current = block.y - image!.height; // Spieler wird auf den Block gesetzt
+                positionY.current = block.y - image!.height;
                 isFalling.current = false;
                 return;
             }
 
-            // Kollision mit der Blockvorderseite (prüft, ob der Spieler gegen den Block knallt)
             if (
-                positionX.current + image!.width >= block.x && // Spieler berührt den Block von vorne
+                positionX.current + image!.width >= block.x &&
                 positionX.current <= block.x + block.width &&
                 positionY.current + image!.height > block.y &&
                 positionY.current < block.y + block.height
@@ -64,7 +74,6 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         isFalling.current = true;
     };
 
-    // Canvas-Rendering und Animation
     useEffect(() => {
         if (canvasRef.current && image && platformImage) {
             const canvas = canvasRef.current;
@@ -78,7 +87,6 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
 
                 blocks.current.push({ x: 0, y: 270, width: canvas.width * 2, height: canvas.height });
 
-                // Aktualisierung des Canvas im Animationsloop
                 const updateCanvas = () => {
                     if (isRunning.current) {
                         if (isFalling.current) {
@@ -90,24 +98,22 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
                             }
                         }
 
-                        checkCollision(); // Kollision mit den Blöcken überprüfen
+                        checkCollision();
 
-                        // Nur den Hintergrund neu zeichnen, wenn nötig
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.fillStyle = '#D1D5DB';
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(image, 0, positionY.current);
 
-                        // Blockverschiebung und -zeichnung
                         blocks.current.forEach((block, index) => {
                             if (block.x + block.width < 0) {
-                                blocks.current.splice(index, 1); // Entfernt den Block, wenn er aus dem Canvas verschwindet
+                                blocks.current.splice(index, 1);
                             }
-                            block.x -= 3;  // Blockgeschwindigkeit
+                            block.x -= 3;
                             ctx.drawImage(platformImage, block.x, block.y, block.width, block.height);
                         });
 
-                        requestAnimationFrame(updateCanvas); // Nächsten Frame anfordern
+                        requestAnimationFrame(updateCanvas);
                     }
                 };
 
@@ -115,29 +121,33 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
 
                 // Blöcke spawnen
                 const spawnBlock = () => {
-                    if (blocks.current.length > 20) return; // Maximale Anzahl an Blöcken
+                    if (blocks.current.length > 20) return;
                     let nbr: number = getRandomNumber(500, 1500);
                     const blockWidth = nbr;
                     const blockY = 270;
                     blocks.current.push({ x: canvas.width, y: blockY, width: blockWidth, height: canvas.height });
                 };
 
-                setInterval(spawnBlock, 3000); // Alle 3 Sekunden einen neuen Block spawnen
+                setInterval(spawnBlock, 3000);
             }
         }
-    }, [image, platformImage]); // Nur erneut ausführen, wenn die Bilder geladen sind
+    }, [image, platformImage]);
 
-    // Spieler nach oben bewegen
     const playerUp = () => {
-        let upperspeed: number = 50;
-        if (positionY.current - upperspeed + 1 >= 0) {
-            positionY.current -= upperspeed;
-        } else {
-            positionY.current = 0;
-        }
+        console.log("UP");
+        let upperspeed: number = 30;
+
+        executeWithDelay(() => {
+            if(positionY.current > 1){
+                positionY.current -= upperspeed/10;
+            }else{
+                positionY.current = 0;
+            }
+
+
+        }, 10, 10);
     };
 
-    // Spieler auf Knopfdruck nach oben bewegen
     useEffect(() => {
         if (triggerPlayerUp) {
             playerUp();
@@ -148,12 +158,12 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
         <div className="absolute mt-64">
             <canvas ref={canvasRef} height={390}/>
 
-            <button
+            {/*<button
                 onClick={playerUp}
                 className="absolute bottom-20 left-1/2 transform -translate-x-1/2 p-2 bg-blue-500 text-white rounded"
             >
                 Player Up
-            </button>
+            </button>*/}
         </div>
     );
 };

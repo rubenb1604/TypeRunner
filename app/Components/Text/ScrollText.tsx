@@ -24,7 +24,8 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
     }, [textAvailable]);
 
     function replaceToUnderscore(input: string): string {
-        return input.replace(/ /g, ' ');
+        return input.replace(/ /g, '█');
+        // 
     }
 
     return (
