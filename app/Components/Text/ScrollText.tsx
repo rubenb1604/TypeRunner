@@ -18,7 +18,12 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
     const [Letters, setLetters] = useState<number>(0);
     const [Seconds, setSeconds] = useState<number>(0);
 
-    let Goal:number = 15;
+    let Goal:number = 100;
+
+    useEffect(() => {
+        setTextAvailable(text);
+    }, [text]);
+
 
 
     useEffect(() => {

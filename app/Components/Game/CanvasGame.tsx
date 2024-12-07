@@ -125,7 +125,6 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
 
                 requestAnimationFrame(updateCanvas);
 
-                // Blöcke spawnen
                 const spawnBlock = () => {
                     if (blocks.current.length > 20) return;
                     let nbr:number = getRandomNumber(500, 1500);
