@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
+import GameOver from "@/app/Components/Game/GameOver/GameOver";
 
 interface CanvasImageProps {
     triggerPlayerUp: boolean;
+    onTrigger: () => void;
 }
 
-const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
+const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [platformImage, setPlatformImage] = useState<HTMLImageElement | null>(null);
@@ -15,6 +17,8 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
     const blocks = useRef<any[]>([]);
     const isFalling = useRef<boolean>(true);
     const isRunning = useRef<boolean>(true);
+
+
 
 
     //infra
@@ -67,6 +71,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
                 positionY.current < block.y + block.height
             ) {
                 isRunning.current = false;
+                onTrigger();
                 return;
             }
         }
@@ -95,6 +100,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
                             } else {
                                 positionY.current = (canvas.height + image.height) / 2;
                                 isRunning.current = false;
+                                onTrigger();
                             }
                         }
 
@@ -135,7 +141,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp }) => {
 
     const playerUp = () => {
         console.log("UP");
-        let upperspeed: number = 30;
+        let upperspeed: number = 40;
 
         executeWithDelay(() => {
             if(positionY.current > 1){
