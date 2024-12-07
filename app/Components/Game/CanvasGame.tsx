@@ -107,7 +107,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
                         checkCollision();
 
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        ctx.fillStyle = '#D1D5DB';
+                        ctx.fillStyle = '#525252';
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(image, 0, positionY.current);
 
@@ -128,7 +128,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
                 // Blöcke spawnen
                 const spawnBlock = () => {
                     if (blocks.current.length > 20) return;
-                    let nbr: number = getRandomNumber(500, 1500);
+                    let nbr:number = getRandomNumber(500, 1500);
                     const blockWidth = nbr;
                     const blockY = 270;
                     blocks.current.push({ x: canvas.width, y: blockY, width: blockWidth, height: canvas.height });
@@ -161,16 +161,7 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
     }, [triggerPlayerUp]);
 
     return (
-        <div className="absolute mt-64">
-            <canvas ref={canvasRef} height={390}/>
-
-            {/*<button
-                onClick={playerUp}
-                className="absolute bottom-20 left-1/2 transform -translate-x-1/2 p-2 bg-blue-500 text-white rounded"
-            >
-                Player Up
-            </button>*/}
-        </div>
+            <canvas className="mt-64" ref={canvasRef} height={390}/>
     );
 };
 

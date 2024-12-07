@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { trackKeyInputs } from "@/app/Components/KeyTracking/KeyInputTracker";
 import CanvasImage from "@/app/Components/Game/CanvasGame";
 import GameOver from "@/app/Components/Game/GameOver/GameOver";
+import Completed from "@/app/Components/Game/Completed/Completed";
 
 interface ScrollTextProps {
     text: string;
@@ -17,7 +18,7 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
     const [Letters, setLetters] = useState<number>(0);
     const [Seconds, setSeconds] = useState<number>(0);
 
-    let Goal:number = 30;
+    let Goal:number = 15;
 
 
     useEffect(() => {
@@ -29,6 +30,12 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
             return () => clearInterval(interval);
         }
     }, [GameOverState]);
+
+    const interval = setInterval(() => {
+        if(Seconds >= Goal-1){
+            setGameOverState(true);
+        }
+    }, 1000);
 
 
     const pullNextChar = useCallback(() => {
@@ -43,7 +50,6 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
     }, [textAvailable]);
 
     const triggerGameOver = () => {
-        console.log("trigger over");
         setGameOverState(true);
     }
 
@@ -54,14 +60,14 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
 
 
     return (
-        <div>
+        <div className="bg-neutral-800 h-full">
             {!GameOverState && (
                 <div className="">
-                    <div className="flex justify-center w-full"><span className="text-4xl">{ Math.round(Seconds / Goal * 100)}%</span></div>
+                    <div className="flex justify-center w-full"><span className="text-4xl text-white font-bold">{ Math.round(Seconds / Goal * 100)}%</span></div>
                     <ul className="flex whitespace-nowrap text-8xl mt-64 font-sans">
                         <li className="">
                             <div id="CONSOLEBACKGROUND"
-                                 className="bg-neutral-800 w-screen h-64 absolute mt-[-4rem]"></div>
+                                 className="bg-neutral-800 h-64 absolute mt-[-4rem] border-violet-600 border-8 w-[120%] ml-[-1rem]"></div>
                             <div className="flex w-full bg-neutral-800">
                                 <div className="text-blue-500 text-right w-[500%] absolute mx-[-470%]" id="done">
                                     {replaceToUnderscore(textDone)}
@@ -75,15 +81,20 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
                     </ul>
                 </div>
             )}
-            <KeyInputPage text={textAvailable} onCharMatch={pullNextChar}/>
-            {GameOverState && (
-                <GameOver Letters={Letters} Seconds={Seconds}/>
-            )}
-            {!GameOverState && (
-                <div className="fixed">
-                    <CanvasImage triggerPlayerUp={triggerPlayerUp} onTrigger={triggerGameOver}/>
-                </div>
-            )}
+            <div className="">
+                <KeyInputPage text={textAvailable} onCharMatch={pullNextChar}/>
+                {GameOverState  && Seconds <= Goal && (
+                    <GameOver Letters={Letters} Seconds={Math.round(Seconds / Goal * 100)}/>
+                )}
+                {Seconds >= Goal && (
+                    <Completed Letters={Letters}/>
+                )}
+                {!GameOverState && (
+                    <div className="fixed">
+                        <CanvasImage triggerPlayerUp={triggerPlayerUp} onTrigger={triggerGameOver}/>
+                    </div>
+                )}
+            </div>
         </div>
     );
 

@@ -7,7 +7,7 @@ const PlayPage: React.FC = () => {
     const text:string = "Das ist ein Test zu diesem tollen Programm.";
 
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden bg-neutral-600 h-screen">
             <ScrollText text={text}/>
         </div>
     );
