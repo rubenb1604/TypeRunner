@@ -11,7 +11,7 @@ export default function Home() {
                     kannst du nicht mehr springen! Das Ziel ist es, oben auf 100% zu kommen!</span>
 
                 <div className="flex justify-center gap-8 items-end">
-                    <video src={"/Explain.mp4"} width={720} controls={true} className="border-4 border-violet-600"></video>
+                    <video src={"/Explain2.mp4"} width={720} controls={true} className="border-4 border-violet-600"></video>
                     <a href={"/"}
                        className="h-fit w-36 text-center text-white border-4 p-3 rounded-2xl text-xl font-bold font-sans border-violet-600 hover:text-violet-600 transition-all">HOME</a>
                 </div>
