@@ -5,9 +5,10 @@ import React, { useRef, useEffect, useState } from 'react';
 interface CanvasImageProps {
     triggerPlayerUp: boolean;
     onTrigger: () => void;
+    lvl: number;
 }
 
-const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) => {
+const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger, lvl}) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [platformImage, setPlatformImage] = useState<HTMLImageElement | null>(null);
@@ -91,6 +92,8 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
 
                 blocks.current.push({ x: 0, y: 270, width: canvas.width * 2, height: canvas.height });
 
+
+
                 const updateCanvas = () => {
                     if (isRunning.current) {
                         if (isFalling.current) {
@@ -127,6 +130,20 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
                 const spawnBlock = () => {
                     if (blocks.current.length > 20) return;
                     let nbr:number = getRandomNumber(500, 1500);
+                    switch (lvl){
+                        case 1:
+                            nbr = getRandomNumber(1000, 1400);
+                            break;
+                        case 2:
+                            nbr = getRandomNumber(500, 1200);
+                            break;
+                        case 3:
+                            nbr = getRandomNumber(500, 1000);
+                            break;
+                        case 4:
+                            nbr = getRandomNumber(300, 750);
+                            break;
+                    }
                     const blockWidth = nbr;
                     const blockY = 270;
                     blocks.current.push({ x: canvas.width, y: blockY, width: blockWidth, height: canvas.height });
@@ -138,7 +155,6 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger}) 
     }, [image, platformImage]);
 
     const playerUp = () => {
-        console.log("UP");
         let upperspeed: number = 40;
 
         executeWithDelay(() => {

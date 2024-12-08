@@ -8,9 +8,10 @@ import CanvasImage from "@/app/Components/Game/CanvasGame";
 
 interface ScrollTextProps {
     text: string;
+    lvl:number;
 }
 
-const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
+const ScrollText: React.FC<ScrollTextProps> = ({ text, lvl }) => {
     const [textAvailable, setTextAvailable] = useState<string>(text);
     const [textDone, setTextDone] = useState<string>("");
     const [triggerPlayerUp, setTriggerPlayerUp] = useState(false);
@@ -18,7 +19,24 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
     const [Letters, setLetters] = useState<number>(0);
     const [Seconds, setSeconds] = useState<number>(0);
 
-    let Goal:number = 100;
+    let Goal:number;
+    switch (lvl){
+        case 1:
+            Goal = 45;
+            break;
+        case 2:
+            Goal = 60;
+            break;
+        case 3:
+            Goal = 90;
+            break;
+        case 4:
+            Goal = 120;
+            break;
+        default:
+            Goal = 1;
+            break;
+    }
 
     useEffect(() => {
         setTextAvailable(text);
@@ -68,7 +86,9 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
         <div className="bg-neutral-800 h-full">
             {!GameOverState && (
                 <div className="">
-                    <div className="flex justify-center w-full"><span className="text-4xl text-white font-bold">{ Math.round(Seconds / Goal * 100)}%</span></div>
+                    <span className="text-2xl text-neutral-300">TEXTE SIND AI GENERIERT.</span>
+                    <div className="flex justify-center w-full"><span
+                        className="text-4xl text-white font-bold">{Math.round(Seconds / Goal * 100)}%</span></div>
                     <ul className="flex whitespace-nowrap text-8xl mt-64 font-sans">
                         <li className="">
                             <div id="CONSOLEBACKGROUND"
@@ -96,7 +116,7 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text }) => {
                 )}
                 {!GameOverState && (
                     <div className="fixed">
-                        <CanvasImage triggerPlayerUp={triggerPlayerUp} onTrigger={triggerGameOver}/>
+                        <CanvasImage triggerPlayerUp={triggerPlayerUp} onTrigger={triggerGameOver} lvl={lvl}/>
                     </div>
                 )}
             </div>

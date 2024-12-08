@@ -15,7 +15,6 @@ export default function Home() {
                     <a href={"/"}
                        className="h-fit w-36 text-center text-white border-4 p-3 rounded-2xl text-xl font-bold font-sans border-violet-600 hover:text-violet-600 transition-all">HOME</a>
                 </div>
-
             </div>
         </div>
     );

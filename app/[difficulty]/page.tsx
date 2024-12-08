@@ -2,14 +2,16 @@
 import { useState, useEffect } from 'react';
 import React from "react";
 import ScrollText from "@/app/Components/Text/ScrollText";
-import {useRouter} from "next/router";
+import {getLastSegment} from "@/app/Components/Router/getlastsegment";
 
 const PlayPage: React.FC = () => {
     const [randomItem, setRandomItem] = useState<string>("LOADING");
 
     const fetchRandomItem = async () => {
         try {
-            const response = await fetch(`/api/RandomText/`);
+            let path = `/api/RandomText/` + getLastSegment()
+            console.log(path);
+            const response = await fetch(path);
             if (!response.ok) throw new Error('API-Antwort ist nicht OK');
             const data = await response.json();
             setRandomItem(data.item);
@@ -24,11 +26,26 @@ const PlayPage: React.FC = () => {
     }, []);
 
 
-    console.log('Aktueller Zustand randomItem:', randomItem);
+    const getLvl = () => {
+        switch (getLastSegment()){
+            case 'easy':
+                return 1;
+            case 'medium':
+                return 2;
+            case 'hard':
+                return 3;
+            case 'extreme':
+                return 4;
+            default:
+                return 1;
+        }
+    }
+
+
 
     return (
         <div className="overflow-hidden bg-neutral-600 h-screen">
-            <ScrollText text={randomItem} />
+            <ScrollText text={randomItem} lvl={getLvl()}/>
         </div>
     );
 };
