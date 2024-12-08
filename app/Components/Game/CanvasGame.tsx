@@ -132,10 +132,10 @@ const CanvasImage: React.FC<CanvasImageProps> = ({ triggerPlayerUp, onTrigger, l
                     let nbr:number = getRandomNumber(500, 1500);
                     switch (lvl){
                         case 1:
-                            nbr = getRandomNumber(1000, 1400);
+                            nbr = getRandomNumber(800, 1400);
                             break;
                         case 2:
-                            nbr = getRandomNumber(500, 1200);
+                            nbr = getRandomNumber(600, 1200);
                             break;
                         case 3:
                             nbr = getRandomNumber(500, 1000);

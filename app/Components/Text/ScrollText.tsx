@@ -87,14 +87,14 @@ const ScrollText: React.FC<ScrollTextProps> = ({ text, lvl }) => {
             {!GameOverState && (
                 <div className="">
                     <span className="text-2xl text-neutral-300">TEXTE SIND AI GENERIERT.</span>
-                    <div className="flex justify-center w-full"><span
+                    <div className="flex justify-center w-full "><span
                         className="text-4xl text-white font-bold">{Math.round(Seconds / Goal * 100)}%</span></div>
                     <ul className="flex whitespace-nowrap text-8xl mt-64 font-sans">
                         <li className="">
                             <div id="CONSOLEBACKGROUND"
                                  className="bg-neutral-800 h-64 absolute mt-[-4rem] border-violet-600 border-8 w-[120%] ml-[-1rem]"></div>
                             <div className="flex w-full bg-neutral-800">
-                                <div className="text-blue-500 text-right w-[500%] absolute mx-[-470%]" id="done">
+                                <div className="text-blue-500 text-right w-[1000%] absolute mx-[-970%]" id="done">
                                     {replaceToUnderscore(textDone)}
                                 </div>
                                 <div className="absolute first-letter:text-amber-300 ml-[30%] text-white"

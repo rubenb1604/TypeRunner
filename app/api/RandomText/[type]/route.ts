@@ -15,17 +15,18 @@ const items60: string[] = [
 
 
 const items100: string[] = [
-    "Der Entwickler passte den Code so an, dass er nun effizienter und besser wartbar ist.",
-    "Die API-Integration war erfolgreich, jedoch gab es einige unerwartete Performance-Probleme.",
-    "Mit der Umstellung auf ein neues Framework konnte die Entwicklungszeit reduziert werden.",
-    "Der Entwickler nutzte Design Patterns, um den Code besser strukturiert und flexibler zu gestalten.",
-    "Das Team hat die neue Version der Anwendung erfolgreich auf den Server implementiert.",
-    "Der Code wurde refaktoriert, um Redundanzen zu vermeiden und die Wartung zu erleichtern.",
-    "Dank eines besseren Error-Handling-Mechanismus funktioniert die Software nun stabiler.",
-    "Die neue Datenbanklösung sorgt für schnelleres Abrufen von Informationen und reduziert Ladezeiten.",
-    "Das Team hat erfolgreich den ersten Prototyp der App entwickelt und getestet.",
-    "Die Einführung des neuen Tools hat die Effizienz des Teams erheblich gesteigert."
-];
+    "Das Entwicklerteam hat die Codebasis verbessert, um die Wartbarkeit zu erhöhen und redundante Strukturen zu eliminieren.",
+    "Dank des neuen Caching-Systems wurden die Ladezeiten drastisch verringert, was zu einer spürbaren Leistungssteigerung führte.",
+    "Die API-Dokumentation wurde überarbeitet, um Entwicklern eine schnellere Integration der Schnittstelle zu ermöglichen.",
+    "Durch die Einführung neuer Codierungsrichtlinien wurde die Struktur des Codes verbessert, was zu einer höheren Lesbarkeit führte.",
+    "Asynchrone Programmierung hat dazu beigetragen, die Reaktionszeiten der Anwendung erheblich zu verkürzen.",
+    "Der Code wurde optimiert, um die Ressourcennutzung zu verbessern und die Stabilität der Anwendung langfristig zu erhöhen.",
+    "Durch den Einsatz bewährter Design Patterns konnte die Flexibilität des Codes deutlich verbessert werden.",
+    "Ein robustes Fehlerbehandlungssystem wurde implementiert, um unerwartete Systemausfälle zu vermeiden und die Stabilität zu erhöhen.",
+    "Die neue Datenbankstruktur hat die Ladezeiten erheblich reduziert und die Benutzererfahrung verbessert.",
+    "Continuous Integration wurde eingeführt, um den Entwicklungsprozess zu beschleunigen und die Bereitstellung neuer Funktionen zu vereinfachen."
+]
+
 
 
 const items150: string[] = [
@@ -43,17 +44,19 @@ const items150: string[] = [
 
 
 const items200: string[] = [
-    "Die Umstellung auf eine containerisierte Architektur erfordert eine sorgfältige Planung, aber sie bietet enorme Vorteile in Bezug auf Skalierbarkeit, Portabilität und einfache Verwaltung in Cloud-Umgebungen.",
-    "Die Umstrukturierung des Codes durch das Team führte zu einer erheblichen Verbesserung der Softwarequalität und -leistung, indem Redundanzen vermieden und unnötige Komplexität reduziert wurden.",
-    "Nachdem das Team mit der Einführung von DevOps-Praktiken begonnen hatte, konnte der Entwicklungsprozess erheblich beschleunigt und die Qualität der Software durch automatisierte Tests verbessert werden.",
-    "Durch die enge Zusammenarbeit mit den Designern konnte das Entwicklerteam eine benutzerfreundliche Oberfläche gestalten, die den Anforderungen der Endnutzer entspricht und eine hohe Nutzerzufriedenheit gewährleistet.",
-    "Die Einführung von Code Reviews als Standardprozess half dem Team, Fehler im frühen Entwicklungsstadium zu identifizieren und zu beheben, was die Qualität des Codes und die Stabilität der Anwendung erhöhte.",
-    "Durch das Refactoring des alten Codes wurde die Wartbarkeit des Systems verbessert, was nicht nur die Entwicklerproduktivität steigerte, sondern auch den langfristigen Erfolg des Projekts sicherte.",
-    "Die Entscheidung, auf eine Microservice-Architektur umzusteigen, war entscheidend für die Flexibilität und Skalierbarkeit der Anwendung. Es ermöglichte eine schnellere Bereitstellung neuer Features und Updates.",
-    "Durch die Automatisierung von Tests und Deployment-Prozessen konnte das Team sicherstellen, dass die Software ständig auf dem neuesten Stand war und gleichzeitig hohe Qualität und Stabilität gewährleistet wurden.",
-    "Das Projektteam entschloss sich, ein modernes Frontend-Framework zu verwenden, das nicht nur die Entwicklungszeit verkürzte, sondern auch eine besser performante und responsivere Benutzeroberfläche ermöglichte.",
-    "Die Migration zu einer Cloud-Infrastruktur war nicht nur technisch herausfordernd, sondern auch ein kultureller Wandel, der das Team dazu zwang, bestehende Prozesse zu überdenken und zu optimieren."
-];
+    "Die Umstellung auf eine containerisierte Architektur erfordert eine sorgfältige Planung, aber sie bietet enorme Vorteile in Bezug auf Skalierbarkeit, Portabilität und einfache Verwaltung in Cloud-Umgebungen. Diese Änderungen tragen auch zur Effizienzsteigerung bei.",
+    "Die Umstrukturierung des Codes durch das Team führte zu einer erheblichen Verbesserung der Softwarequalität und -leistung, indem Redundanzen vermieden und unnötige Komplexität reduziert wurden. Dies optimiert nicht nur den Code, sondern auch die Performance der Anwendung.",
+    "Nachdem das Team mit der Einführung von DevOps-Praktiken begonnen hatte, konnte der Entwicklungsprozess erheblich beschleunigt und die Qualität der Software durch automatisierte Tests verbessert werden. Diese Änderungen führten zu schnelleren Bereitstellungen und weniger Fehlern.",
+    "Durch die enge Zusammenarbeit mit den Designern konnte das Entwicklerteam eine benutzerfreundliche Oberfläche gestalten, die den Anforderungen der Endnutzer entspricht und eine hohe Nutzerzufriedenheit gewährleistet. Ein gut gestaltetes UI trägt entscheidend zum Erfolg bei.",
+    "Die Einführung von Code Reviews als Standardprozess half dem Team, Fehler im frühen Entwicklungsstadium zu identifizieren und zu beheben, was die Qualität des Codes und die Stabilität der Anwendung erhöhte. Code Reviews fördern eine Kultur der Qualität und Zusammenarbeit.",
+    "Durch das Refactoring des alten Codes wurde die Wartbarkeit des Systems verbessert, was nicht nur die Entwicklerproduktivität steigerte, sondern auch den langfristigen Erfolg des Projekts sicherte. Dies führte zu einer besseren Struktur und verringerten Wartungskosten.",
+    "Die Entscheidung, auf eine Microservice-Architektur umzusteigen, war entscheidend für die Flexibilität und Skalierbarkeit der Anwendung. Es ermöglichte eine schnellere Bereitstellung neuer Features und Updates, da Änderungen an einzelnen Microservices unabhängig voneinander vorgenommen werden konnten.",
+    "Durch die Automatisierung von Tests und Deployment-Prozessen konnte das Team sicherstellen, dass die Software ständig auf dem neuesten Stand war und gleichzeitig hohe Qualität und Stabilität gewährleistet wurden. Dies führte zu einer zuverlässigeren und effizienteren Softwarebereitstellung.",
+    "Das Projektteam entschloss sich, ein modernes Frontend-Framework zu verwenden, das nicht nur die Entwicklungszeit verkürzte, sondern auch eine besser performante und responsivere Benutzeroberfläche ermöglichte. Die Wahl des Frameworks war entscheidend für die Verbesserung der Benutzererfahrung.",
+    "Die Migration zu einer Cloud-Infrastruktur war nicht nur technisch herausfordernd, sondern auch ein kultureller Wandel, der das Team dazu zwang, bestehende Prozesse zu überdenken und zu optimieren. Die Cloud ermöglichte eine bessere Skalierbarkeit und Verfügbarkeit der Anwendung."
+
+]
+
 
 
 export async function GET(req: Request) {
