@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { trackKeyInputs } from "@/app/Components/KeyTracking/KeyInputTracker";
-import CanvasImage from "@/app/Components/Game/CanvasGame";
 import GameOver from "@/app/Components/Game/GameOver/GameOver";
 import Completed from "@/app/Components/Game/Completed/Completed";
+import CanvasImage from "@/app/Components/Game/CanvasGame";
 
 interface ScrollTextProps {
     text: string;

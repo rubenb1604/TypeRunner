@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
-import GameOver from "@/app/Components/Game/GameOver/GameOver";
 
 interface CanvasImageProps {
     triggerPlayerUp: boolean;
